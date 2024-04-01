@@ -1,0 +1,47 @@
+---
+#--------------
+#
+# create a subnets via aws cli
+# Create a public subnet in us-east-1a with an appropriate CIDR block within the 172.31.0.0/16 range
+# aws ec2 create-subnet --vpc-id vpc-01ff1471ff112e89f --cidr-block 172.31.96.0/20 --availability-zone us-east-1a --tag-specifications 'ResourceType=subnet,Tags=[{Key=Name,Value=Public-us-east-1a}]' --profile mixa-e
+
+# # Create a public subnet in us-east-1b with an appropriate CIDR block within the 172.31.0.0/16 range
+# aws ec2 create-subnet --vpc-id vpc-01ff1471ff112e89f --cidr-block 172.31.112.0/20 --availability-zone us-east-1b --tag-specifications 'ResourceType=subnet,Tags=[{Key=Name,Value=Public-us-east-1b}]' --profile mixa-e
+
+# # Create a private subnet in us-east-1a with an appropriate CIDR block within the 172.31.0.0/16 range
+# aws ec2 create-subnet --vpc-id vpc-01ff1471ff112e89f --cidr-block 172.31.128.0/20 --availability-zone us-east-1a --tag-specifications 'ResourceType=subnet,Tags=[{Key=Name,Value=Private-us-east-1a}]' --profile mixa-e
+
+# # Create a private subnet in us-east-1b with an appropriate CIDR block within the 172.31.0.0/16 range
+# aws ec2 create-subnet --vpc-id vpc-01ff1471ff112e89f --cidr-block 172.31.144.0/20 --availability-zone us-east-1b --tag-specifications 'ResourceType=subnet,Tags=[{Key=Name,Value=Private-us-east-1b}]' --profile mixa-e
+
+# eksctl create cluster -f eks_cluster_dev.yaml
+# eksctl delete cluster -f eks_cluster_dev.yaml
+#
+#
+#
+
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: demo-dev
+  region: us-east-1
+  version: "1.27"
+
+vpc:
+  id: vpc-01ff1471ff112e89f
+  subnets:
+    public:
+      us-east-2a: { id: subnet-00362c641c4877235 } # For load balancer
+      us-east-2b: { id: subnet-0969b527d59015be2 } # For load balancer
+    private:
+      us-east-2a: { id: subnet-0f787727d337ad265 } # For worker nodes
+      us-east-2b: { id: subnet-00396e87d244c50bc } # For worker nodes
+
+managedNodeGroups:
+  - name: general
+    instanceType: t2.micro
+    desiredCapacity: 3
+    labels: { role: general }
+    volumeSize: 50
+    privateNetworking: true
