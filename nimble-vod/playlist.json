@@ -1,0 +1,68 @@
+{
+  "SyncInterval": 10000,
+  "Tasks": [
+    {
+      "Stream": "playlist/main",
+      "Blocks": [
+        {
+          "Id": 133,
+          "MaxIterations": 0,
+          "Name": "main",
+          "Streams": [
+            {
+              "Type": "vod",
+              "Source": "/home/ubuntu/demo/main.mp4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Stream": "playlist/cam2",
+      "Blocks": [
+        {
+          "Id": 134,
+          "MaxIterations": 0,
+          "Name": "cam2",
+          "Streams": [
+            {
+              "Type": "vod",
+              "Source": "/home/ubuntu/demo/cam2.mp4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Stream": "playlist/cam3",
+      "Blocks": [
+        {
+          "Id": 135,
+          "Name": "cam3",
+          "Streams": [
+            {
+              "Type": "vod",
+              "Source": "/home/ubuntu/demo/cam3.mp4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Stream": "playlist/cam4",
+      "Blocks": [
+        {
+          "Id": 136,
+          "MaxIterations": 0,
+          "Name": "cam4",
+          "Streams": [
+            {
+              "Type": "vod",
+              "Source": "/home/ubuntu/demo/cam4.mp4"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
