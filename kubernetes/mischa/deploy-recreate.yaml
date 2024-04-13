@@ -17,5 +17,9 @@ spec:
       containers:
         - image: httpd:alpine3.18
           name: httpd
-  strategy:
+          resources:
+            limits:
+              cpu: "1"
+              memory: "512Mi"
+    strategy:
     type: Recreate
