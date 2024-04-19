@@ -9,7 +9,7 @@
     - name: install apache2 package
       apt:
         name: apache2
-        state: latest
+        state: absent
 
     - name: add php support for apache2
       apt:
