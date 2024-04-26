@@ -1,4 +1,9 @@
-host1@orb apache_package=apache2 php_package=libapache2-mod-php
-host2@orb apache_package=apache2 php_package=libapache2-mod-php
-host3@orb apache_package=apache2 php_package=libapache2-mod-php
-centos@orb apache_package=httpd php_package=php
+[web_servers]
+host1@orb
+host2@orb
+
+[db_servers]
+host3@orb
+
+[file_servers]
+centos@orb
