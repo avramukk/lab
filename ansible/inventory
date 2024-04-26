@@ -7,3 +7,6 @@ host3@orb
 
 [file_servers]
 centos@orb
+
+[workstations]
+work1@orb
