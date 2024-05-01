@@ -1,0 +1,43 @@
+name: pulumi-lab-aws-yaml
+runtime: yaml
+description: A minimal AWS Pulumi YAML program
+config:
+  pulumi:tags:
+    value:
+      pulumi:template: aws-yaml
+outputs:
+  # ...
+  bucketEndpoint: http://${my-bucket.websiteEndpoint}
+resources:
+  # Create an AWS resource (S3 Bucket)
+  my-bucket:
+    type: aws:s3:Bucket
+    properties:
+      website:
+        indexDocument: index.html
+  # Create an S3 Bucket object
+  ownership-controls:
+    type: aws:s3:BucketOwnershipControls
+    properties:
+      bucket: ${my-bucket.id}
+      rule:
+        objectOwnership: ObjectWriter
+
+  public-access-block:
+    type: aws:s3:BucketPublicAccessBlock
+    properties:
+      bucket: ${my-bucket.id}
+      blockPublicAcls: false
+
+  index.html:
+    type: aws:s3:BucketObject
+    properties:
+      bucket: ${my-bucket.id}
+      source:
+        fn::fileAsset: ./index.html
+      contentType: text/html
+      acl: public-read
+    options:
+      dependsOn:
+        - ${public-access-block}
+        - ${ownership-controls}
