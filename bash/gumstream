@@ -1,0 +1,38 @@
+#!/bin/bash
+
+# This is the script for generating test video streams with ffmpeg and gum
+
+# Define default values
+DEFAULT_RESOLUTION="1920x1080"
+DEFAULT_BITRATE="2000k"
+DEFAULT_FPS="30"
+DEFAULT_KEYFRAME_INTERVAL="60"
+DEFAULT_FORMAT="srt"
+
+# Display a menu using gum to choose parameters
+RESOLUTION=$(gum input --placeholder "Enter resolution (e.g., 1920x1080)" --value "$DEFAULT_RESOLUTION")
+BITRATE=$(gum input --placeholder "Enter bitrate (e.g., 2000k)" --value "$DEFAULT_BITRATE")
+FPS=$(gum input --placeholder "Enter FPS (e.g., 30)" --value "$DEFAULT_FPS")
+KEYFRAME_INTERVAL=$(gum input --placeholder "Enter keyframe interval (e.g., 60)" --value "$DEFAULT_KEYFRAME_INTERVAL")
+FORMAT=$(gum choose "srt" "rtmp" "hls" --placeholder "Choose format (default: srt)" --value "$DEFAULT_FORMAT")
+
+# Ask for the output URL
+OUTPUT_URL=$(gum input --placeholder "Enter output URL (e.g., srt://127.0.0.1:1935?streamid=output)" --value "")
+
+# Generate the ffmpeg command based on inputs
+ffmpeg_command="ffmpeg -re -f lavfi -i testsrc=size=${RESOLUTION}:rate=${FPS} \
+    -c:v libx264 -b:v ${BITRATE} -g ${KEYFRAME_INTERVAL} \
+    -f ${FORMAT} ${OUTPUT_URL}"
+
+# Display the generated command
+gum style --bold --border double --padding "1 1" --margin "1 1" -- "Generated ffmpeg command:"
+echo $ffmpeg_command
+
+# Confirm and execute the command
+if gum confirm "Do you want to run this command?"; then
+    eval $ffmpeg_command
+else
+    echo "Command execution cancelled."
+fi
+
+
