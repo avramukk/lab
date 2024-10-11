@@ -1,12 +1,12 @@
 #!/bin/bash
 #--------------------------------------------------------------------
 # Script to Install Grafana Server on Linux Ubuntu (22.04, 24.04)
-# Include Prometheus DataSource Configuration
+# Include Prometheus DataSource Configuration (Optional)
 #--------------------------------------------------------------------
 # https://grafana.com/grafana/download
 GRAFANA_VERSION="10.4.2"
-PROMETHEUS_URL="http://prometheus.orb.local:9090" // local orbstack ubuntu 
-
+# Set PROMETHEUS_URL if you want to add Prometheus as a default datasource
+# PROMETHEUS_URL="http://your-prometheus-url:9090"
 
 apt-get install -y apt-transport-https software-properties-common wget
 mkdir -p /etc/apt/keyrings/
@@ -20,8 +20,9 @@ dpkg -i grafana_${GRAFANA_VERSION}_amd64.deb
 
 echo "export PATH=/usr/share/grafana/bin:$PATH" >> /etc/profile
 
-
-cat <<EOF> /etc/grafana/provisioning/datasources/prometheus.yaml
+# Add Prometheus datasource only if PROMETHEUS_URL is set
+if [ ! -z "${PROMETHEUS_URL}" ]; then
+    cat <<EOF> /etc/grafana/provisioning/datasources/prometheus.yaml
 apiVersion: 1
 
 datasources:
@@ -29,9 +30,9 @@ datasources:
     type: prometheus
     url: ${PROMETHEUS_URL}
 EOF
+fi
 
 systemctl daemon-reload
 systemctl enable grafana-server
 systemctl start grafana-server
 systemctl status grafana-server
-
