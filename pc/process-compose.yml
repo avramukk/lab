@@ -1,0 +1,26 @@
+processes:
+  stream_process:
+    description: "Test video stream with testsrc and sine audio"
+    command:
+      ffmpeg -re -stream_loop -1 -f lavfi -i "testsrc=size=$$resolution:rate=$$fps_value" 
+      -f lavfi -i "sine=frequency=220:beep_factor=4" 
+      -b:v "$$bitrate" -profile:v "$$profile" -pix_fmt "$$pix_fmt" 
+      -vf "drawtext=fontsize=110:fontcolor=red:x=(w-tw)/4:y=(h-th)/2:text='%{pts\\:hms} %{n}':timecode_rate=$$fps_value"
+      -c:v libx264 -c:a aac -f mpegts "$$url"
+    environment:
+      - "resolution=1920x1080"
+      - "fps_value=30"
+      - "bitrate=1M"
+      - "profile=main"
+      - "pix_fmt=yuv420p"
+      - "url=srt://18.188.151.79:3001"
+    replicas: 1
+    log_location: ./log_stream.{PC_REPLICA_NUM}.log
+    availability:
+      restart: on_failure # other options: "exit_on_failure", "always", "no" (default)
+      backoff_seconds: 2 # default: 1
+      max_restarts: 0 # default: 0 (unlimited)
+    shutdown:
+      timeout: 10 # default: 10
+      signal: 9 # default: SIGTERM
+      kill_after: 5 # default: 5

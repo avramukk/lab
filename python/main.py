@@ -1,5 +1,1 @@
-# Description: This is a simple Hello World program in Python
-
-print("Hello, World!")
-
-
+print(int(15.5)-10)

@@ -1,0 +1,5 @@
+addAwsCCommonModuleDir() {
+    cmakeFlags="-DCMAKE_MODULE_PATH=/nix/store/38gfgxdrm2vm0f72n2v9zpa2ivf1y3sh-aws-c-common-0.9.17/lib/cmake ${cmakeFlags:-}"
+}
+
+postHooks+=(addAwsCCommonModuleDir)

@@ -1,0 +1,4 @@
+Name: nlohmann_json
+Description: JSON for Modern C++
+Version: 3.11.3
+Cflags: -I/nix/store/mdvd0ffl5id9zj9qmhmh3yya5z17y31z-nlohmann_json-3.11.3/include
