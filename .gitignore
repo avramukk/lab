@@ -26,3 +26,11 @@ plans/
 *.zip
 *.tar.xz
 ffmpeg/
+
+# build artifacts / logs kept locally
+c/hello
+*.log
+
+# nested experiment clones (kept local, tracked separately)
+dagger/hello-dagger/
+kubernetes/example-voting-app-kubernetes/
