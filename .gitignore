@@ -1,3 +1,28 @@
+# OS / editor
 .DS_Store
 .aider*
-secret/.env
+
+# local secrets — never commit
+secret/
+
+# dependencies
+node_modules/
+k6/node_modules/
+
+# build output
+target/
+zig-out/
+
+# devbox / nix store cache
+devbox/
+
+# local tool artifacts
+.playwright-mcp/
+.pi/
+.claude/
+plans/
+
+# archives and media dumps
+*.zip
+*.tar.xz
+ffmpeg/
