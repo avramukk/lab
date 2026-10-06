@@ -1,0 +1,18 @@
+# Secret scanning for the lab repo.
+#
+# Uses the Homebrew-installed `gitleaks` binary via `language: system`, so a
+# commit hook needs no network access and no per-clone rebuild. Scans only the
+# staged diff, which keeps commits fast even though this repo carries a lot of
+# untracked experiment junk.
+#
+# Enable once per clone:   pre-commit install
+# Run manually:           pre-commit run --hook-stage pre-commit
+# Bypass (use rarely):    git commit --no-verify
+repos:
+  - repo: local
+    hooks:
+      - id: gitleaks
+        name: gitleaks (scan staged changes for secrets)
+        entry: gitleaks git --pre-commit --staged --redact --verbose
+        language: system
+        pass_filenames: false

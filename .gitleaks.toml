@@ -1,0 +1,23 @@
+# gitleaks config for the lab repo.
+#
+# Starts from gitleaks' built-in rule set and layers a global allowlist on top
+# for known non-secrets live in this sandbox (fake keys in experiments, local
+# fixture files). Keep entries narrow — a broad allowlist silently disables
+# detection.
+#
+# Docs: https://github.com/gitleaks/gitleaks/blob/master/README.md
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Lab-specific known non-secrets"
+
+# Paths never worth scanning: local-only secret material and vendored deps.
+paths = [
+  # local-only secrets — also in .gitignore, listed here as defence in depth
+  '''^secret/''',
+  # vendored / generated trees that may contain example credentials
+  '''node_modules/''',
+  '''vendor/''',
+]
